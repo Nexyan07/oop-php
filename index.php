@@ -1,5 +1,9 @@
 <?php
 
+interface InfoSiswa {
+    public function getInfoSiswa();
+}
+
 abstract class Siswa {
     private $nama, $kelas, $type;
 
@@ -11,12 +15,9 @@ abstract class Siswa {
     public function getLabel() {
        return "$this->nama, $this->kelas"; 
     }
-    abstract public function getInfoSiswa();
     
-    public function getInfo() {
-        $str = "Siswa = " . $this->getLabel();
-        return $str;
-    }
+    abstract public function getInfo();
+
     public function getNama() {
         return $this->nama;
     }
@@ -38,7 +39,7 @@ abstract class Siswa {
 }
 
 
-class anakSosial extends Siswa {
+class anakSosial extends Siswa implements infoSiswa {
     public $organisasi;
     
     public function __construct($nama = "unknown", $kelas = "unknown", $organisasi = null) {
@@ -50,9 +51,14 @@ class anakSosial extends Siswa {
         $str = "Siswa = " . $this->getInfo() . " ~ " . $this->organisasi;
         return $str;
     }
+
+    public function getInfo() {
+        $str = "Siswa = " . $this->getLabel();
+        return $str;
+    }
 }
 
-class anakAutodidak extends Siswa {
+class anakAutodidak extends Siswa implements infoSiswa {
     public $bahasaPemrograman;
     
     public function __construct($nama = "unknown", $kelas = "unknown", $bahasaPemrograman = null) {
@@ -62,6 +68,11 @@ class anakAutodidak extends Siswa {
     
     public function getInfoSiswa() {
         $str = "Siswa = " . $this->getInfo() . " ~ " . $this->bahasaPemrograman;
+        return $str;
+    }
+
+    public function getInfo() {
+        $str = "Siswa = " . $this->getLabel();
         return $str;
     }
 }
