@@ -1,7 +1,7 @@
 <?php
 
 class Siswa {
-    public $nama, $kelas, $type;
+    private $nama, $kelas, $type;
 
     public function __construct($nama = "unknown", $kelas = "unknown") {
         $this->nama = $nama;
@@ -15,6 +15,24 @@ class Siswa {
     public function getInfoSiswa() {
         $str = "Siswa = " . $this->getLabel();
         return $str;
+    }
+    public function getNama() {
+        return $this->nama;
+    }
+    public function setNama( $nama ) {
+        if(!is_string($nama)){
+            throw new Exception("Nama harus berisi huruf");
+        }
+        $this->nama = $nama;
+    }
+    public function getKelas() {
+        return $this->kelas;
+    }
+    public function setKelas( $kelas ) {
+        if(!is_string($kelas)){
+            throw new Exception("Kelas harus berisi huruf");
+        }
+        $this->kelas = $kelas;
     }
 }
 
@@ -57,12 +75,6 @@ class anakAutodidak extends Siswa {
 $siswa1 = new anakAutodidak("Anto", "XII RPL", "php");
 $siswa2 = new anakSosial("Nabila", "XII TJKT A", "PMR");
 $siswa3 = new Siswa();
-echo "nama = " . $siswa1->nama . "<br>" . "kelas = " . $siswa1->kelas;
-echo "<br>";
-echo "nama = " . $siswa2->nama . "<br>" . "kelas = " . $siswa2->kelas;
-echo "<br>";
-echo "nama = " . $siswa3->nama . "<br> kelas = " . $siswa3->kelas;
-echo "<br>";
 echo $siswa1->getInfoSiswa();
 echo "<br>";
 echo $siswa2->getInfoSiswa();
@@ -71,3 +83,8 @@ echo $siswa3->getInfoSiswa();
 echo "<br>";
 $infoSiswa1 = new CetakInfoSiswa();
 echo $infoSiswa1->cetak($siswa1);
+echo "<br>";
+$siswa1->setNama("Bilaaa");
+$siswa1->setKelas("XII TJKT A");
+echo $siswa1->getNama();
+echo $siswa1->getKelas();
