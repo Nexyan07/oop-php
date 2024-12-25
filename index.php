@@ -1,6 +1,6 @@
 <?php
 
-class Siswa {
+abstract class Siswa {
     private $nama, $kelas, $type;
 
     public function __construct($nama = "unknown", $kelas = "unknown") {
@@ -11,8 +11,9 @@ class Siswa {
     public function getLabel() {
        return "$this->nama, $this->kelas"; 
     }
+    abstract public function getInfoSiswa();
     
-    public function getInfoSiswa() {
+    public function getInfo() {
         $str = "Siswa = " . $this->getLabel();
         return $str;
     }
@@ -36,55 +37,63 @@ class Siswa {
     }
 }
 
-class CetakInfoSiswa {
-    public function cetak( Siswa $siswa ) {
-        $str = "{$siswa->nama} | {$siswa->kelas}";
-        return $str;
-    }
-}
 
 class anakSosial extends Siswa {
     public $organisasi;
-
+    
     public function __construct($nama = "unknown", $kelas = "unknown", $organisasi = null) {
         parent::__construct($nama, $kelas);
         $this->organisasi = $organisasi;
     }
 
     public function getInfoSiswa() {
-        $str = "Siswa = " . parent::getInfoSiswa() . " ~ " . $this->organisasi;
+        $str = "Siswa = " . $this->getInfo() . " ~ " . $this->organisasi;
         return $str;
     }
 }
 
 class anakAutodidak extends Siswa {
     public $bahasaPemrograman;
-
+    
     public function __construct($nama = "unknown", $kelas = "unknown", $bahasaPemrograman = null) {
         parent::__construct($nama, $kelas);
         $this->bahasaPemrograman = $bahasaPemrograman;
     }
-
+    
     public function getInfoSiswa() {
-        $str = "Siswa = " . parent::getInfoSiswa() . " ~ " . $this->bahasaPemrograman;
+        $str = "Siswa = " . $this->getInfo() . " ~ " . $this->bahasaPemrograman;
         return $str;
     }
 }
 
+class CetakInfoSiswa {
+    public $daftarSiswa = array();
+
+    public function tambahSiswa(Siswa $siswa) {
+        $this->daftarSiswa[] = $siswa;
+    }
+    public function cetak() {
+        $str = "Daftar Siswa : <br>";
+        foreach($this->daftarSiswa as $s) {
+            $str .= "~ {$s->getInfoSiswa()} <br>";
+        }
+        return $str;
+    }
+}
 
 $siswa1 = new anakAutodidak("Anto", "XII RPL", "php");
 $siswa2 = new anakSosial("Nabila", "XII TJKT A", "PMR");
-$siswa3 = new Siswa();
+
 echo $siswa1->getInfoSiswa();
 echo "<br>";
 echo $siswa2->getInfoSiswa();
-echo "<br>";
-echo $siswa3->getInfoSiswa();
-echo "<br>";
-$infoSiswa1 = new CetakInfoSiswa();
-echo $infoSiswa1->cetak($siswa1);
 echo "<br>";
 $siswa1->setNama("Bilaaa");
 $siswa1->setKelas("XII TJKT A");
 echo $siswa1->getNama();
 echo $siswa1->getKelas();
+echo "<hr>";
+$cetakSiswa = new CetakInfoSiswa();
+$cetakSiswa->tambahSiswa($siswa1);
+$cetakSiswa->tambahSiswa($siswa2);
+echo $cetakSiswa->cetak();
