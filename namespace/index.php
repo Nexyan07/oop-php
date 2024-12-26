@@ -1,6 +1,6 @@
 <?php
 
-require_once 'namespace/App/init.php';
+require_once 'App/init.php';
 
 // $siswa1 = new anakAutodidak("Anto", "XII RPL", "php");
 // $siswa2 = new anakSosial("Nabila", "XII TJKT A", "PMR");
@@ -19,4 +19,7 @@ require_once 'namespace/App/init.php';
 // $cetakSiswa->tambahSiswa($siswa2);
 // echo $cetakSiswa->cetak();
 
-new namespace\App\service\User();
+use App\Service\User as ServiceUser;
+new ServiceUser();
+use App\Siswa\User;
+new User();
